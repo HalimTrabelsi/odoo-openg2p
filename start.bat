@@ -1,6 +1,5 @@
 @echo off
-echo Pulling images and starting containers...
-docker-compose pull
-docker-compose up -d --build
-echo Done. Odoo should be reachable at http://localhost:8069
+echo Starting OpenG2P POC (prod compose)...
+docker compose -f docker-compose.prod.yml --env-file .env up -d --build
+echo Done. Odoo: http://localhost:8069
 pause

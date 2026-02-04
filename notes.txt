@@ -11,7 +11,7 @@ docker-compose exec postgresql psql -U odoo -d openg2p
 UPDATE res_users SET password = 'admin' WHERE login = 'user@example.com';
 
 //SCHWIFTY FIX 
-docker exec -it openg22p-openg2p-odoo-1 /opt/bitnami/odoo/venv/bin/python -m pip install schwifty
+docker exec -it openg2p-odoo /opt/bitnami/odoo/venv/bin/python -m pip install schwifty
  docker restart openg22p-openg2p-odoo-1
 
 //Documents FIX
