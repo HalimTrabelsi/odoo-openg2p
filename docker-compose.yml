@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   postgresql:
     image: postgres:15.6
@@ -36,34 +34,11 @@ services:
       ODOO_DATABASE_NAME: ${POSTGRES_DB:-openg2p}
       ODOO_DATABASE_USER: ${POSTGRES_USER:-odoo}
       ODOO_DATABASE_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
-
       ODOO_LOAD_DEMO_DATA: "no"
-      ODOO_UPDATE: "no"   # upgrades only when YOU do it
+      ODOO_UPDATE: "no"
       ODOO_ADDONS_PATH: "/opt/bitnami/odoo/addons,/opt/bitnami/odoo/extra-addons"
     volumes:
       - odoo-data:/bitnami/odoo
-    networks:
-      - openg2p-internal
-
-  # Optional: include your SPAR mapper API in the same POC stack
-  spar-mapper-api:
-    build:
-      context: ./openg2p-spar-mapper-api
-      dockerfile: Dockerfile
-    image: openg2p-spar-mapper-api:stable
-    container_name: openg2p-spar-mapper-api
-    restart: unless-stopped
-    depends_on:
-      postgresql:
-        condition: service_healthy
-    environment:
-      SPAR_MAPPER_WORKER_TYPE: local
-      SPAR_MAPPER_HOST: 0.0.0.0
-      SPAR_MAPPER_PORT: 8000
-      SPAR_MAPPER_NO_OF_WORKERS: 2
-      # If your API needs DB access, add env vars here (host=postgresql, etc.)
-    ports:
-      - "8000:8000"
     networks:
       - openg2p-internal
 
