@@ -22,5 +22,5 @@ COPY ./storage/storage_media /opt/bitnami/odoo/extra-addons/storage_media
 COPY ./storage/storage_media_product /opt/bitnami/odoo/extra-addons/storage_media_product
 COPY ./storage/storage_thumbnail /opt/bitnami/odoo/extra-addons/storage_thumbnail
 
-# Install extra python deps needed by addons (example)
+
 RUN /opt/bitnami/odoo/venv/bin/python -m pip install --no-cache-dir schwifty

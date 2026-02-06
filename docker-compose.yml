@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   postgresql:
     image: postgres:15.6
@@ -14,6 +16,34 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    networks:
+      - openg2p-internal
+
+  spar-mapper-api:
+    build:
+      context: ./openg2p-spar
+      dockerfile: Dockerfile.mapper
+    container_name: openg2p-spar-mapper-api
+    restart: unless-stopped
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    networks:
+      - openg2p-internal
+
+  spar-bene-portal-api:
+    build:
+      context: ./openg2p-spar
+      dockerfile: Dockerfile.bene-portal
+    container_name: openg2p-spar-bene-portal-api
+    restart: unless-stopped
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    ports:
+      - "8001:8000"
     networks:
       - openg2p-internal
 
@@ -37,6 +67,9 @@ services:
       ODOO_LOAD_DEMO_DATA: "no"
       ODOO_UPDATE: "no"
       ODOO_ADDONS_PATH: "/opt/bitnami/odoo/addons,/opt/bitnami/odoo/extra-addons"
+
+      ODOO_ADMIN_PASSWORD: admin
+
     volumes:
       - odoo-data:/bitnami/odoo
     networks:
